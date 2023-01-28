@@ -4,6 +4,10 @@ const env = process.env.ENVIRONMENT;
 
 console.log("Enviroment is " + env);
 
+const { v4: uuidv4 } = require('uuid');
+
+console.log("UUID v4 is: " + uuidv4());
+
 const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
