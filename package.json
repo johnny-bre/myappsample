@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
+    "startdev": "npx nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,11 +18,11 @@
     "url": "https://github.com/johnny-bre/myappsample/issues"
   },
   "homepage": "https://github.com/johnny-bre/myappsample#readme",
-
   "dependencies": {
-    "uuid": "^9.0.0"
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
   }
 }

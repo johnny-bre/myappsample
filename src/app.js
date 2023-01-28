@@ -4,21 +4,18 @@ const env = process.env.ENVIRONMENT;
 
 console.log("Enviroment is " + env);
 
-const { v4: uuidv4 } = require('uuid');
+const express = require('express');
+const app=express();
+const PORT = process.env.PORT;
 
-console.log("UUID v4 is: " + uuidv4());
-
-const hostname = process.env.HOSTNAME;
-const port = process.env.PORT;
-
-const http = require('http');
-
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
-    res.end('<h1>Welcome to my page </h1>');
+app.get('/', (req, res) => {
+    res.send('<h1>Hello world! </h1>');
 });
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);    
+app.post('/', (req, res) => {
+    res.send('This is a post request!');
+});
+
+app.listen(PORT, () => {
+    console.log('App listening on port: ' + PORT);
 });
