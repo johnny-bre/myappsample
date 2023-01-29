@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/johnny-bre/myappsample#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^6.9.0"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
