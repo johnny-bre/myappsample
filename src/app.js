@@ -3,23 +3,16 @@
 if (process.env.ENVIRONMENT !== 'production' || 'uat') {
     require('dotenv').config();
 }
+const mongoose = require('mongoose');
+const express = require('express');
+const Customer = require('./models/customer');
 
 const env = process.env.ENVIRONMENT;
-
-console.log("Enviroment is " + env);
-
-// connect to MongoDB
-const mongoose = require('mongoose');
-
 const mongouri = "mongodb+srv://" + process.env.MONGODBUSERNAME + ":" + process.env.MONGODBPASSWORD + "@" + process.env.MONGODHOST + "/?retryWrites=true&w=majority";
-
-const express = require('express');
 const app=express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 const PORT = process.env.PORT || 3000;
-
 const customers = [
     {
         "name": "Johnny B",
@@ -36,8 +29,15 @@ const customers = [
     }
 ];
 
+console.log("Enviroment is " + env);
+
+const customer = new Customer({
+    name: 'John',
+    industry: "marketing"
+})
+
 app.get('/', (req, res) => {
-    res.send("Welcome!");
+    res.send(customer);
 });
 
 app.get('/api/customers', (req, res) => {
