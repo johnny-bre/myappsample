@@ -8,7 +8,7 @@ const express = require('express');
 const Customer = require('./models/customer');
 
 const env = process.env.ENVIRONMENT;
-const mongouri = "mongodb+srv://" + process.env.MONGODBUSERNAME + ":" + process.env.MONGODBPASSWORD + "@" + process.env.MONGODHOST + "/?retryWrites=true&w=majority";
+const mongouri = "mongodb+srv://" + process.env.MONGODBUSERNAME + ":" + process.env.MONGODBPASSWORD + "@" + process.env.MONGODHOST + "/" + process.env.DATABASE +"?retryWrites=true&w=majority";
 const app=express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,19 +34,33 @@ console.log("Enviroment is " + env);
 const customer = new Customer({
     name: 'John',
     industry: "marketing"
-})
+});
+
 
 app.get('/', (req, res) => {
-    res.send(customer);
+    res.send("Welcome!");
 });
 
-app.get('/api/customers', (req, res) => {
-    res.send({"customers": customers});
+app.get('/api/customers', async (req, res) => {
+    try{
+        const result = await Customer.find();
+        res.send({"customers": result});
+    } catch(e){
+        res.status(500).json({error: e.message});
+    }
+    
 });
 
-app.post('/api/customers', (req, res) => {
+app.post('/api/customers', async (req, res) => {
     console.log(req.body);
-    res.send({"recorded": req.body});
+    const customer = new Customer(req.body);
+    try {
+        await customer.save()
+        res.status(201).json({customer});
+    } catch(e){
+        res.status(400).json({error: e.message});
+    }
+    
 });
 
 app.post('/', (req, res) => {
