@@ -41,6 +41,39 @@ app.get('/', (req, res) => {
     res.send("Welcome!");
 });
 
+app.get('/api/customers/:id', async (req, res) => {    
+    console.log({
+        requestParams: req.params,
+        requestQuery: req.query
+    });
+    try{
+        const {id: customerid} = req.params;
+        console.log(customerid);
+        const customer = await Customer.findById(customerid);
+        console.log(customer);
+        if(!customer){
+            res.status(404).json({error: 'ID not found'});
+        } else{
+            res.json({customer});
+        }               
+    } catch(e){
+        res.status(500).json({error: 'something went wrong'});
+    }
+
+});
+
+app.put('/api/customers/:id', async (req, res) => {
+    try{
+        const customerId = req.params.id;
+        const result = await Customer.replaceOne({_id: customerId}, req.body);
+        console.log(result);
+        res.json({updatedcount: result.modifiedCount});
+    } catch(e){
+        res.status(500).json({error: 'something went wrong'});
+    }
+});
+
+
 app.get('/api/customers', async (req, res) => {
     try{
         const result = await Customer.find();
